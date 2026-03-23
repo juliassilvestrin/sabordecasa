@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sabor de Casa - Find Ingredient Substitutes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/states.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="/" class="logo">Sabor de Casa</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- SEARCH SECTION (always visible) -->
+    <section id="search-section" class="search-section">
+      <div class="search-hero">
+        <h1>Find substitutes for<br>Brazilian ingredients</h1>
+        <p class="search-subtitle">Type an ingredient you can't find at American stores and we'll help you find the closest match.</p>
+      </div>
+      <form id="search-form" class="search-form">
+        <div class="search-fields">
+          <div class="field-group">
+            <label for="search-ingredient">Ingredient you can't find</label>
+            <input
+              type="text"
+              id="search-ingredient"
+              placeholder="e.g. catupiry, batata palha, polvilho..."
+              autocomplete="off"
+              required
+            >
+          </div>
+          <div class="field-group">
+            <label for="search-dish">Dish you are making <span class="optional">(optional)</span></label>
+            <input
+              type="text"
+              id="search-dish"
+              placeholder="e.g. pastel, pão de queijo, brigadeiro..."
+              autocomplete="off"
+            >
+          </div>
+        </div>
+        <button type="submit" id="search-button" class="btn btn-primary">Find Substitutes</button>
+      </form>
+    </section>
+
+    <!-- LOADING SECTION -->
+    <section id="loading-section" class="section hidden">
+      <div class="loading-container">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Finding your best substitute...</p>
+      </div>
+    </section>
+
+    <!-- RESULTS LIST (multiple substitutes) -->
+    <section id="results-list-section" class="section hidden">
+      <div class="results-header">
+        <button id="back-to-search" class="btn-back">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back
+        </button>
+        <h2>Results</h2>
+      </div>
+      <div id="original-ingredient-info"></div>
+      <p id="results-count" class="results-count"></p>
+      <div id="results-list" class="results-list"></div>
+    </section>
+
+    <!-- SINGLE RESULT DETAIL -->
+    <section id="result-detail-section" class="section hidden">
+      <div class="results-header">
+        <button id="back-to-results" class="btn-back">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back
+        </button>
+        <h2>Results</h2>
+      </div>
+      <div id="result-detail" class="result-detail"></div>
+    </section>
+
+    <!-- NO SUBSTITUTE FOUND -->
+    <section id="no-substitute-section" class="section hidden">
+      <div class="results-header">
+        <button id="back-from-nosub" class="btn-back">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back
+        </button>
+        <h2>Results</h2>
+      </div>
+      <div id="no-substitute-content" class="no-substitute-content"></div>
+    </section>
+
+    <!-- SYSTEM ERROR -->
+    <section id="error-section" class="section hidden">
+      <div class="error-container">
+        <div class="error-icon">!</div>
+        <h2>Something went wrong</h2>
+        <p class="error-message">We couldn't process your search right now. Please try again.</p>
+        <button id="error-retry" class="btn btn-primary">Try Again</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Sabor de Casa uses AI to suggest substitutes. Always use your judgment when cooking.</p>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
