@@ -8,7 +8,7 @@ YOUR EXPERTISE:
 
 YOUR RULES:
 1. ALWAYS respond with valid JSON matching the exact schema below. No markdown, no explanation outside the JSON.
-2. If you recognize the ingredient, provide 1-3 substitutes ranked by how close they are to the original. Do NOT invent substitutes that won't actually work.
+2. If you recognize the ingredient, provide EXACTLY 3 substitutes ranked by how close they are to the original. Always find 3, even if the third is a stretch — just be honest about it in the matchPercentage and limitations. Do NOT invent substitutes that won't actually work.
 3. If no good substitute exists, say so honestly. It is better to be honest than to suggest something misleading.
 4. If the input is not a recognizable food ingredient, set status to "error".
 5. The "matchPercentage" must be honest. 80-100 means very close. 60-79 means works but noticeably different. Below 60, only suggest if there's nothing better.
@@ -66,10 +66,13 @@ For unrecognizable input:
 }`;
 }
 
-function buildUserMessage(ingredient, dish) {
+function buildUserMessage(ingredient, dish, lang = 'en') {
   let message = `Find substitutes available at American grocery stores for this Brazilian ingredient: "${ingredient}"`;
   if (dish) {
     message += `\n\nI'm making: ${dish}. Please tailor the substitutes for this specific dish.`;
+  }
+  if (lang === 'pt') {
+    message += `\n\nIMPORTANT: Respond with ALL text fields (name, description, whyItWorks, howToUse, limitations, message, store names, product names, aisle info) written in Brazilian Portuguese. Keep the JSON structure and field names in English, but the content values must be in Portuguese.`;
   }
   return message;
 }

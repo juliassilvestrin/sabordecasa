@@ -1,5 +1,5 @@
 const state = {
-  currentView: 'home',    // 'home' | 'loading' | 'results-list' | 'result-detail' | 'no-substitute' | 'error'
+  currentView: 'home',    // 'home' | 'loading' | 'results-list' | 'result-detail' | 'no-substitute' | 'error' | 'saved'
   previousView: null,
   query: { ingredient: '', dish: '' },
   results: null,
@@ -26,8 +26,12 @@ export function subscribe(fn) {
 }
 
 export function goBack() {
-  if (state.currentView === 'result-detail' && state.results && state.results.substitutes.length > 1) {
+  if (state.currentView === 'result-detail' && state.results && state.results.substitutes && state.results.substitutes.length > 1) {
     setState({ currentView: 'results-list', selectedSubstitute: null });
+  } else if (state.currentView === 'saved') {
+    // Go back to wherever we came from, default home
+    const dest = state.previousView || 'home';
+    setState({ currentView: dest === 'saved' ? 'home' : dest });
   } else {
     setState({ currentView: 'home', results: null, selectedSubstitute: null, error: null });
   }

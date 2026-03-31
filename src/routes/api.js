@@ -3,7 +3,7 @@ const router = express.Router();
 const { findSubstitutes } = require('../services/ingredient-service');
 
 router.post('/search', async (req, res) => {
-  const { ingredient, dish } = req.body;
+  const { ingredient, dish, lang } = req.body;
 
   if (!ingredient || typeof ingredient !== 'string' || ingredient.trim().length === 0) {
     return res.status(400).json({
@@ -20,7 +20,7 @@ router.post('/search', async (req, res) => {
   }
 
   try {
-    const result = await findSubstitutes(ingredient.trim(), dish?.trim());
+    const result = await findSubstitutes(ingredient.trim(), dish?.trim(), lang || 'en');
     return res.json(result);
   } catch (error) {
     console.error('Search error:', error.message);
