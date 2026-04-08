@@ -1,19 +1,25 @@
 // Known Brazilian ingredients for client-side fuzzy matching
 const KNOWN_INGREDIENTS = [
   'catupiry', 'requeijão', 'requeijao', 'batata palha', 'queijo coalho',
-  'queijo minas', 'polvilho', 'polvilho azedo', 'polvilho doce',
+  'queijo minas', 'queijo minas frescal', 'polvilho', 'polvilho azedo', 'polvilho doce',
   'leite condensado', 'creme de leite', 'farofa', 'farinha de mandioca',
-  'farinha de rosca', 'goiabada', 'paçoca', 'pacoca', 'brigadeiro',
-  'guaraná', 'guarana', 'tucupi', 'dendê', 'dende', 'azeite de dendê',
-  'açaí', 'acai', 'tapioca', 'mandioca', 'coxinha', 'pão de queijo',
-  'pao de queijo', 'linguiça', 'linguica', 'calabresa', 'charque',
-  'carne seca', 'feijão preto', 'feijao preto', 'rapadura',
+  'farinha de rosca', 'farinha de trigo', 'farinha', 'goiabada', 'goiabada cascão',
+  'paçoca', 'pacoca', 'brigadeiro', 'beijinho', 'quindim',
+  'guaraná', 'guarana', 'tucupi', 'dendê', 'dende', 'azeite de dendê', 'azeite de dende',
+  'açaí', 'acai', 'tapioca', 'mandioca', 'aipim', 'macaxeira',
+  'coxinha', 'pão de queijo', 'pao de queijo',
+  'linguiça', 'linguica', 'calabresa', 'charque',
+  'carne seca', 'feijão preto', 'feijao preto', 'feijão', 'feijao', 'rapadura',
   'leite de coco', 'coco ralado', 'colorau', 'urucum',
-  'castanha de caju', 'castanha do pará', 'farinha de trigo',
-  'maizena', 'amido de milho', 'queijo prato', 'queijo muçarela',
+  'castanha de caju', 'castanha do pará', 'castanha do para',
+  'maizena', 'amido de milho', 'queijo prato', 'queijo muçarela', 'queijo mussarela',
   'cream cheese', 'catupiri', 'requejão', 'requejao',
   'queijo colho', 'queijo coalgo', 'bata palha', 'batata pala',
   'polvilho asedo', 'goiabda', 'paçoa', 'mandioka', 'tapioka',
+  'canjica', 'curau', 'pamonha', 'cocada', 'cuscuz', 'cuscuz paulista',
+  'vinagrete', 'farofa de bacon', 'moqueca', 'cachaça', 'cachaca',
+  'pimenta dedo de moça', 'pimenta dedo de moca', 'pimenta biquinho',
+  'erva mate', 'erva-mate', 'chimichurri', 'sal grosso',
 ];
 
 /**
@@ -38,24 +44,34 @@ function levenshtein(a, b) {
 }
 
 /**
+ * Strip diacritics for accent-insensitive comparison
+ */
+function stripAccents(str) {
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+/**
  * Check if input is an exact or near-exact known ingredient.
  * Returns null if it's a known ingredient (no suggestion needed).
  * Returns the best match string if the input looks like a misspelling.
  */
 export function checkSpelling(input) {
   const normalized = input.toLowerCase().trim();
+  const normalizedStripped = stripAccents(normalized);
 
-  // Exact match — no suggestion needed
-  if (KNOWN_INGREDIENTS.includes(normalized)) {
-    return null;
+  // Exact match (with or without accents) — no suggestion needed
+  for (const known of KNOWN_INGREDIENTS) {
+    if (known === normalized || stripAccents(known) === normalizedStripped) {
+      return null;
+    }
   }
 
-  // Find closest match
+  // Find closest match using accent-stripped forms
   let bestMatch = null;
   let bestDist = Infinity;
 
   for (const known of KNOWN_INGREDIENTS) {
-    const dist = levenshtein(normalized, known);
+    const dist = levenshtein(normalizedStripped, stripAccents(known));
     if (dist < bestDist) {
       bestDist = dist;
       bestMatch = known;
@@ -63,8 +79,8 @@ export function checkSpelling(input) {
   }
 
   // Only suggest if the distance is small enough to be a plausible typo
-  // Threshold: up to ~30% of the input length, minimum 1, max 3
-  const threshold = Math.min(3, Math.max(1, Math.ceil(normalized.length * 0.3)));
+  // Max 2 edits to reduce false positives
+  const threshold = Math.min(2, Math.max(1, Math.ceil(normalized.length * 0.2)));
 
   if (bestDist > 0 && bestDist <= threshold) {
     // Capitalize first letter of each word for display

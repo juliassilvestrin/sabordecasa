@@ -1,6 +1,8 @@
 import { setState, getState } from './state.js';
 import { toggleSave, isSaved } from './saved.js';
 import { t, getLang } from './i18n.js';
+import { showToast } from './toast.js';
+import { reportSubstitute } from './api.js';
 
 function getMatchClass(percentage) {
   if (percentage >= 75) return 'match-high';
@@ -59,6 +61,8 @@ export function renderResultDetail(container, substitute, ingredient, dish) {
     .split(/(?<=[.!])\s+/)
     .filter(s => s.trim().length > 0);
 
+  const infoSVG = `<svg width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M10 8.5v.5M10 11v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`;
+
   container.innerHTML = `
     <div class="result-detail">
       <div class="detail-header">
@@ -66,7 +70,10 @@ export function renderResultDetail(container, substitute, ingredient, dish) {
           <h3>${substitute.name}</h3>
           <p>${substitute.description}</p>
         </div>
-        ${matchBadgeHTML(substitute.matchPercentage, 'match-badge--inline')}
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+          ${matchBadgeHTML(substitute.matchPercentage, 'match-badge--inline')}
+          <button class="match-info-btn" id="match-info-btn" aria-label="${t('matchInfoBtn')}">${infoSVG}</button>
+        </div>
       </div>
       <div class="tabs" role="tablist" aria-label="Substitute details">
         <button class="tab active" role="tab" aria-selected="true" aria-controls="panel-why" id="tab-why" data-tab="why">${t('tabWhy')}</button>
@@ -100,6 +107,10 @@ export function renderResultDetail(container, substitute, ingredient, dish) {
       <svg width="18" height="18" viewBox="0 0 24 24" fill="${saved ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
       ${saved ? t('savedBtn') : t('saveBtn')}
     </button>
+    <button class="report-btn" id="report-btn" aria-label="${t('reportBtn')}">
+      <svg width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 3l7 13H3L10 3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 8v4M10 14.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      ${t('reportBtn')}
+    </button>
   `;
 
   // Tab switching with keyboard support
@@ -132,6 +143,122 @@ export function renderResultDetail(container, substitute, ingredient, dish) {
       <svg width="18" height="18" viewBox="0 0 24 24" fill="${nowSaved ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
       ${nowSaved ? t('savedBtn') : t('saveBtn')}
     `;
+    showToast(nowSaved ? t('toastSaved') : t('toastUnsaved'));
+  });
+
+  // Match info button
+  const matchInfoBtn = container.querySelector('#match-info-btn');
+  matchInfoBtn.addEventListener('click', () => showMatchTooltip());
+
+  // Report button
+  const reportBtn = container.querySelector('#report-btn');
+  reportBtn.addEventListener('click', () => showReportOverlay(substitute, ingredient, dish));
+}
+
+function showMatchTooltip() {
+  const overlay = document.createElement('div');
+  overlay.className = 'match-tooltip-overlay';
+  overlay.setAttribute('role', 'dialog');
+  overlay.setAttribute('aria-modal', 'true');
+  overlay.setAttribute('aria-label', t('matchInfoTitle'));
+  overlay.innerHTML = `
+    <div class="match-tooltip-box">
+      <h4>${t('matchInfoTitle')}</h4>
+      <div class="match-tooltip-row">
+        <div class="match-badge match-high" style="min-width:52px"><span class="match-badge-pct">80%+</span><span class="match-badge-label">match</span></div>
+        <div>
+          <strong>${t('matchInfo80label')}</strong><br>
+          <span style="color:var(--color-text-light);font-size:0.8125rem">${t('matchInfo80desc')}</span>
+        </div>
+      </div>
+      <div class="match-tooltip-row">
+        <div class="match-badge match-mid" style="min-width:52px"><span class="match-badge-pct">60%+</span><span class="match-badge-label">match</span></div>
+        <div>
+          <strong>${t('matchInfo60label')}</strong><br>
+          <span style="color:var(--color-text-light);font-size:0.8125rem">${t('matchInfo60desc')}</span>
+        </div>
+      </div>
+      <div class="match-tooltip-row">
+        <div class="match-badge match-low" style="min-width:52px"><span class="match-badge-pct">&lt;60%</span><span class="match-badge-label">match</span></div>
+        <div>
+          <strong>${t('matchInfo0label')}</strong><br>
+          <span style="color:var(--color-text-light);font-size:0.8125rem">${t('matchInfo0desc')}</span>
+        </div>
+      </div>
+      <button class="match-tooltip-close" id="match-tooltip-close">${t('matchInfoClose')}</button>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  const close = () => overlay.remove();
+  overlay.querySelector('#match-tooltip-close').addEventListener('click', close);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+  overlay.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+  overlay.querySelector('#match-tooltip-close').focus();
+}
+
+function showReportOverlay(substitute, ingredient, dish) {
+  const overlay = document.createElement('div');
+  overlay.className = 'report-overlay';
+  overlay.setAttribute('role', 'dialog');
+  overlay.setAttribute('aria-modal', 'true');
+  overlay.setAttribute('aria-label', t('reportTitle'));
+
+  const reasons = [
+    { key: 'not-available', label: t('reportNotAvailable') },
+    { key: 'not-similar',   label: t('reportNotSimilar') },
+    { key: 'wrong-store',   label: t('reportWrongStore') },
+    { key: 'other',         label: t('reportOther') },
+  ];
+
+  overlay.innerHTML = `
+    <div class="report-box">
+      <h4>${t('reportTitle')}</h4>
+      <p>${t('reportDesc')}</p>
+      <div class="report-options">
+        ${reasons.map(r => `
+          <button class="report-option" data-reason="${r.key}">${r.label}</button>
+        `).join('')}
+      </div>
+      <div class="report-actions">
+        <button class="report-cancel" id="report-cancel">${t('reportCancel')}</button>
+        <button class="report-submit" id="report-submit" disabled>${t('reportSubmit')}</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  let selectedReason = null;
+
+  overlay.querySelectorAll('.report-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      overlay.querySelectorAll('.report-option').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedReason = btn.dataset.reason;
+      overlay.querySelector('#report-submit').disabled = false;
+    });
+  });
+
+  const close = () => overlay.remove();
+
+  overlay.querySelector('#report-cancel').addEventListener('click', close);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+  overlay.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+
+  overlay.querySelector('#report-submit').addEventListener('click', async () => {
+    if (!selectedReason) return;
+    try {
+      await reportSubstitute({
+        ingredient,
+        dish: dish || null,
+        substituteName: substitute.name,
+        reason: selectedReason,
+      });
+    } catch (_) { /* silently ignore — best effort */ }
+    close();
+    showToast(t('reportSuccess'));
   });
 }
 

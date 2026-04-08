@@ -61,6 +61,33 @@ const translations = {
     spellingError: "We couldn't find that ingredient. Check your spelling?",
     spellingDidYouMean: 'Did you mean:',
 
+    // Toast
+    toastSaved: 'Saved for later',
+    toastUnsaved: 'Removed from saved',
+
+    // Match info tooltip
+    matchInfoBtn: 'What does this percentage mean?',
+    matchInfoTitle: 'What does this percentage mean?',
+    matchInfo80label: '80–100% — Very close',
+    matchInfo80desc: 'Nearly the same taste, texture, and cooking behavior',
+    matchInfo60label: '60–79% — Works but different',
+    matchInfo60desc: 'Similar results with noticeable differences',
+    matchInfo0label: 'Below 60% — Last resort',
+    matchInfo0desc: 'Use only if nothing else is available',
+    matchInfoClose: 'Got it',
+
+    // Report
+    reportBtn: 'Report a problem with this suggestion',
+    reportTitle: "What's wrong with this suggestion?",
+    reportDesc: 'Help us improve. Your feedback is anonymous.',
+    reportNotAvailable: "Product isn't available near me",
+    reportNotSimilar: "Doesn't taste or work like the original",
+    reportWrongStore: 'Wrong store or aisle information',
+    reportOther: 'Something else',
+    reportCancel: 'Cancel',
+    reportSubmit: 'Submit',
+    reportSuccess: 'Thanks for the feedback!',
+
     // Language toggle
     langToggle: 'PT',
   },
@@ -126,6 +153,33 @@ const translations = {
     // Spelling
     spellingError: 'Não encontramos esse ingrediente. Verifique a ortografia?',
     spellingDidYouMean: 'Você quis dizer:',
+
+    // Toast
+    toastSaved: 'Salvo para depois',
+    toastUnsaved: 'Removido dos salvos',
+
+    // Match info tooltip
+    matchInfoBtn: 'O que significa essa porcentagem?',
+    matchInfoTitle: 'O que significa essa porcentagem?',
+    matchInfo80label: '80–100% — Muito próximo',
+    matchInfo80desc: 'Praticamente o mesmo sabor, textura e comportamento no cozimento',
+    matchInfo60label: '60–79% — Funciona, mas é diferente',
+    matchInfo60desc: 'Resultado parecido com diferenças perceptíveis',
+    matchInfo0label: 'Abaixo de 60% — Último recurso',
+    matchInfo0desc: 'Use só se não houver nada melhor disponível',
+    matchInfoClose: 'Entendi',
+
+    // Report
+    reportBtn: 'Reportar problema com essa sugestão',
+    reportTitle: 'O que há de errado com essa sugestão?',
+    reportDesc: 'Nos ajude a melhorar. Seu feedback é anônimo.',
+    reportNotAvailable: 'Produto não disponível perto de mim',
+    reportNotSimilar: 'Não tem gosto ou funciona como o original',
+    reportWrongStore: 'Loja ou corredor incorreto',
+    reportOther: 'Outro motivo',
+    reportCancel: 'Cancelar',
+    reportSubmit: 'Enviar',
+    reportSuccess: 'Obrigado pelo feedback!',
 
     // Language toggle
     langToggle: 'EN',

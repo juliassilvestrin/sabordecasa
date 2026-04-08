@@ -13,3 +13,13 @@ export async function searchIngredient(ingredient, dish, lang = 'en') {
 
   return data;
 }
+
+export async function reportSubstitute({ ingredient, dish, substituteName, reason }) {
+  try {
+    await fetch('/api/report', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ingredient, dish, substituteName, reason }),
+    });
+  } catch (_) { /* best effort */ }
+}
