@@ -272,8 +272,14 @@
 }
 
 .popular-icon {
-  font-size: 2.25rem;
-  line-height: 1;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: #F2E6D9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
 }
 
 .popular-name {
