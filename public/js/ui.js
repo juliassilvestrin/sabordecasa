@@ -32,9 +32,9 @@ function showView(viewName) {
 
   // Set header title
   if (viewName === 'saved') {
-    headerTitle.textContent = 'Saved';
+    headerTitle.textContent = t('saved');
   } else {
-    headerTitle.textContent = 'Results';
+    headerTitle.textContent = t('results');
   }
 
   // Context bar — show on results/detail/no-substitute pages
