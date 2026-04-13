@@ -12,6 +12,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api', apiRouter);
 
+app.use('/api', (req, res) => {
+  res.status(404).json({ status: 'error', message: 'API route not found.' });
+});
+
 app.get('/{*splat}', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
