@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sabor de Casa — Ingredient Translator</title>
+  <title>Ingredient Translator — Sabor de Casa</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:wght@700&display=swap" rel="stylesheet">
@@ -18,9 +18,9 @@
   <header id="header-home" class="site-header site-header--home">
     <div class="container">
       <div class="header-inner">
-        <a href="/" class="logo" aria-label="Sabor de Casa home">
-          <span class="logo-main">Sabor de Casa</span>
-          <span class="logo-tag">Ingredient Translator</span>
+        <a href="/" class="logo" aria-label="Ingredient Translator home">
+          <span class="logo-main">Ingredient Translator</span>
+          <span class="logo-tag">Sabor de Casa</span>
         </a>
         <div class="header-actions">
           <button class="lang-toggle" aria-label="Switch language">PT</button>
@@ -114,10 +114,33 @@
         </div>
       </form>
 
-      <p class="search-hint">
-        <svg width="13" height="13" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M10 8.5v.5M10 11v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        <span data-i18n="searchHint">Tip: adding the dish helps us suggest the right substitute for your recipe</span>
-      </p>
+      <div class="search-form-footer">
+        <p class="search-hint">
+          <svg width="13" height="13" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M10 8.5v.5M10 11v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span data-i18n="searchHint">Tip: adding the dish helps us suggest the right substitute for your recipe</span>
+        </p>
+
+        <!-- Recipe mode -->
+        <div class="recipe-mode-section">
+          <button class="recipe-toggle-btn" id="recipe-toggle-btn" aria-expanded="false">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
+            <span class="recipe-toggle-label" data-i18n="recipeModeBtn">Or paste a whole recipe</span>
+            <svg class="recipe-toggle-chevron" width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div id="recipe-input-section" class="recipe-input-section hidden">
+            <textarea
+              id="recipe-textarea"
+              class="recipe-textarea"
+              data-i18n-placeholder="recipePlaceholder"
+              placeholder="Paste your recipe here..."
+              rows="6"
+            ></textarea>
+            <button id="recipe-search-btn" class="btn btn-primary recipe-search-btn" data-i18n="recipeSearchBtn">
+              Find substitutes in this recipe
+            </button>
+          </div>
+        </div>
+      </div>
 
       <!-- Popular Ingredients -->
       <div class="popular-section" aria-label="Popular ingredients">
@@ -169,26 +192,6 @@
         </div>
       </div>
 
-      <!-- Recipe mode -->
-      <div class="recipe-mode-section">
-        <button class="recipe-toggle-btn" id="recipe-toggle-btn" aria-expanded="false">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
-          <span class="recipe-toggle-label" data-i18n="recipeModeBtn">Or paste a whole recipe</span>
-          <svg class="recipe-toggle-chevron" width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <div id="recipe-input-section" class="recipe-input-section hidden">
-          <textarea
-            id="recipe-textarea"
-            class="recipe-textarea"
-            data-i18n-placeholder="recipePlaceholder"
-            placeholder="Paste your recipe here..."
-            rows="6"
-          ></textarea>
-          <button id="recipe-search-btn" class="btn btn-primary recipe-search-btn" data-i18n="recipeSearchBtn">
-            Find substitutes in this recipe
-          </button>
-        </div>
-      </div>
     </section>
 
     <!-- LOADING SECTION -->

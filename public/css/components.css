@@ -891,12 +891,17 @@
 /* ===========================
    SEARCH HINT
    =========================== */
+.search-form-footer {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
 .search-hint {
   display: flex;
   align-items: flex-start;
+  justify-content: center;
   gap: 6px;
-  max-width: 800px;
-  margin: var(--space-sm) auto 0;
+  margin: var(--space-sm) 0 0;
   font-size: 0.8125rem;
   color: var(--color-text-muted);
 }
@@ -1028,10 +1033,7 @@
    RECIPE MODE SECTION
    =========================== */
 .recipe-mode-section {
-  margin-top: var(--space-xl);
-  max-width: 680px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-top: var(--space-md);
 }
 
 .recipe-toggle-btn {
