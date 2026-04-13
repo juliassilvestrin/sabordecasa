@@ -1,0 +1,270 @@
+const translations = {
+  en: {
+    // Header
+    saved: 'Saved',
+    back: 'Back',
+    results: 'Results',
+
+    // Home
+    heroTitle: 'Find substitutes for ingredients from home',
+    heroSubtitle: "Type what you need and what dish you're making",
+    ingredientLabel: "Ingredient you can't find",
+    ingredientPlaceholder: 'e.g. catupiry, requeijão...',
+    dishLabel: "Dish you're making",
+    dishPlaceholder: 'e.g. pastel, stroganoff...',
+    searchBtn: 'Search',
+    browseLabel: 'or browse popular ingredients',
+    findSubstitutes: 'Find substitutes',
+
+    // Loading
+    loadingText: 'Finding your best substitute...',
+    loadingSlowText: 'Still searching, almost there...',
+
+    // Results
+    optionsFound: (n) => `${n} option${n === 1 ? '' : 's'} found:`,
+
+    // Detail tabs
+    tabWhy: 'Why it Works',
+    tabWhere: 'Where to Buy',
+    tabHow: 'How to Use',
+    limitations: 'Limitations:',
+    storeAisle: 'Look in:',
+    saveBtn: 'Save for later',
+    savedBtn: 'Saved',
+
+    // Context bar
+    contextWith: (ingredient, dish) => `Substitute for <strong>${ingredient}</strong> in <strong>${dish}</strong>`,
+    contextWithout: (ingredient) => `Substitute for <strong>${ingredient}</strong>`,
+
+    // No substitute
+    noSubTitle: 'No good substitute found',
+    noSubWhat: 'What you could try instead',
+    noSubOrder: (name) => `Order ${name.toLowerCase()} online`,
+    noSubOrderSub: 'Find it on Amazon or Brazilian import stores',
+    noSubDiff: 'Try a different dish',
+    noSubDiffSub: 'Browse other recipes that work with US ingredients',
+
+    // Error
+    errorTitle: 'Something went wrong',
+    errorMsg: "We couldn't load this page. Try refreshing or come back later.",
+    errorBtn: 'Refresh Page',
+
+    // Saved page
+    savedTitle: 'Your Saved Substitutes',
+    savedSubtitle: "Quick access to substitutes you've saved for later",
+    savedEmptyLine1: "You haven't saved any substitutes yet.",
+    savedEmptyLine2: 'Search for an ingredient and tap "Save for later" to bookmark it here.',
+    savedSubstituteFor: 'Substitute for',
+    savedIn: 'in',
+
+    // Spelling
+    spellingError: "We couldn't find that ingredient. Check your spelling?",
+    spellingDidYouMean: 'Did you mean:',
+
+    // Toast
+    toastSaved: 'Saved for later',
+    toastUnsaved: 'Removed from saved',
+
+    // Match info tooltip
+    matchInfoBtn: 'What does this percentage mean?',
+    matchInfoTitle: 'What does this percentage mean?',
+    matchInfo80label: '80–100% — Very close',
+    matchInfo80desc: 'Nearly the same taste, texture, and cooking behavior',
+    matchInfo60label: '60–79% — Works but different',
+    matchInfo60desc: 'Similar results with noticeable differences',
+    matchInfo0label: 'Below 60% — Last resort',
+    matchInfo0desc: 'Use only if nothing else is available',
+    matchInfoClose: 'Got it',
+
+    // Report
+    reportBtn: 'Report a problem with this suggestion',
+    reportTitle: "What's wrong with this suggestion?",
+    reportDesc: 'Help us improve. Your feedback is anonymous.',
+    reportNotAvailable: "Product isn't available near me",
+    reportNotSimilar: "Doesn't taste or work like the original",
+    reportWrongStore: 'Wrong store or aisle information',
+    reportOther: 'Something else',
+    reportCancel: 'Cancel',
+    reportSubmit: 'Submit',
+    reportSuccess: 'Thanks for the feedback!',
+
+    // Search hint
+    searchHint: 'Tip: adding the dish helps us suggest a substitute that actually works for your specific recipe',
+
+    // Recipe mode
+    recipeModeBtn: 'Or paste a whole recipe',
+    recipeHideModeBtn: 'Back to single ingredient',
+    recipePlaceholder: 'Paste your recipe here — ingredients list or full recipe text...',
+    recipeSearchBtn: 'Find substitutes in this recipe',
+    recipeLoadingText: 'Analyzing your recipe...',
+    recipeResultsTitle: (dish) => dish ? `Substitutes for ${dish}` : 'Substitutes for your recipe',
+    recipeCount: (n) => `${n} ingredient${n === 1 ? '' : 's'} need${n === 1 ? 's' : ''} a substitute`,
+    recipeNoneFound: 'No specialty ingredients found',
+    recipeNoneDesc: 'All ingredients in this recipe are easily available at US grocery stores.',
+    recipeErrorTitle: 'Could not analyze recipe',
+
+    // Language toggle
+    langToggle: 'PT',
+  },
+
+  pt: {
+    // Header
+    saved: 'Salvos',
+    back: 'Voltar',
+    results: 'Resultados',
+
+    // Home
+    heroTitle: 'Encontre substitutos para ingredientes de casa',
+    heroSubtitle: 'Digite o que você precisa e qual prato está fazendo',
+    ingredientLabel: 'Ingrediente que você não encontrou',
+    ingredientPlaceholder: 'ex: catupiry, requeijão...',
+    dishLabel: 'Prato que você está fazendo',
+    dishPlaceholder: 'ex: pastel, stroganoff...',
+    searchBtn: 'Buscar',
+    browseLabel: 'ou explore ingredientes populares',
+    findSubstitutes: 'Ver substitutos',
+
+    // Loading
+    loadingText: 'Encontrando o melhor substituto...',
+    loadingSlowText: 'Ainda buscando, quase lá...',
+
+    // Results
+    optionsFound: (n) => `${n} opç${n === 1 ? 'ão' : 'ões'} encontrada${n === 1 ? '' : 's'}:`,
+
+    // Detail tabs
+    tabWhy: 'Por que funciona',
+    tabWhere: 'Onde comprar',
+    tabHow: 'Como usar',
+    limitations: 'Limitações:',
+    storeAisle: 'Procure em:',
+    saveBtn: 'Salvar para depois',
+    savedBtn: 'Salvo',
+
+    // Context bar
+    contextWith: (ingredient, dish) => `Substituto para <strong>${ingredient}</strong> em <strong>${dish}</strong>`,
+    contextWithout: (ingredient) => `Substituto para <strong>${ingredient}</strong>`,
+
+    // No substitute
+    noSubTitle: 'Nenhum substituto encontrado',
+    noSubWhat: 'O que você pode tentar',
+    noSubOrder: (name) => `Pedir ${name.toLowerCase()} online`,
+    noSubOrderSub: 'Encontre no Amazon ou lojas de importados brasileiros',
+    noSubDiff: 'Tentar um prato diferente',
+    noSubDiffSub: 'Veja receitas que funcionam com ingredientes dos EUA',
+
+    // Error
+    errorTitle: 'Algo deu errado',
+    errorMsg: 'Não conseguimos carregar esta página. Tente recarregar ou volte mais tarde.',
+    errorBtn: 'Recarregar página',
+
+    // Saved page
+    savedTitle: 'Seus Substitutos Salvos',
+    savedSubtitle: 'Acesso rápido aos substitutos que você salvou',
+    savedEmptyLine1: 'Você ainda não salvou nenhum substituto.',
+    savedEmptyLine2: 'Busque um ingrediente e clique em "Salvar para depois" para guardar aqui.',
+    savedSubstituteFor: 'Substituto para',
+    savedIn: 'em',
+
+    // Spelling
+    spellingError: 'Não encontramos esse ingrediente. Verifique a ortografia?',
+    spellingDidYouMean: 'Você quis dizer:',
+
+    // Toast
+    toastSaved: 'Salvo para depois',
+    toastUnsaved: 'Removido dos salvos',
+
+    // Match info tooltip
+    matchInfoBtn: 'O que significa essa porcentagem?',
+    matchInfoTitle: 'O que significa essa porcentagem?',
+    matchInfo80label: '80–100% — Muito próximo',
+    matchInfo80desc: 'Praticamente o mesmo sabor, textura e comportamento no cozimento',
+    matchInfo60label: '60–79% — Funciona, mas é diferente',
+    matchInfo60desc: 'Resultado parecido com diferenças perceptíveis',
+    matchInfo0label: 'Abaixo de 60% — Último recurso',
+    matchInfo0desc: 'Use só se não houver nada melhor disponível',
+    matchInfoClose: 'Entendi',
+
+    // Report
+    reportBtn: 'Reportar problema com essa sugestão',
+    reportTitle: 'O que há de errado com essa sugestão?',
+    reportDesc: 'Nos ajude a melhorar. Seu feedback é anônimo.',
+    reportNotAvailable: 'Produto não disponível perto de mim',
+    reportNotSimilar: 'Não tem gosto ou funciona como o original',
+    reportWrongStore: 'Loja ou corredor incorreto',
+    reportOther: 'Outro motivo',
+    reportCancel: 'Cancelar',
+    reportSubmit: 'Enviar',
+    reportSuccess: 'Obrigado pelo feedback!',
+
+    // Search hint
+    searchHint: 'Dica: adicionar o prato nos ajuda a sugerir o substituto certo para a sua receita específica',
+
+    // Recipe mode
+    recipeModeBtn: 'Ou cole uma receita inteira',
+    recipeHideModeBtn: 'Voltar para ingrediente único',
+    recipePlaceholder: 'Cole sua receita aqui — lista de ingredientes ou texto completo...',
+    recipeSearchBtn: 'Encontrar substitutos na receita',
+    recipeLoadingText: 'Analisando sua receita...',
+    recipeResultsTitle: (dish) => dish ? `Substitutos para ${dish}` : 'Substitutos para sua receita',
+    recipeCount: (n) => `${n} ingrediente${n === 1 ? '' : 's'} precisa${n === 1 ? '' : 'm'} de substituto`,
+    recipeNoneFound: 'Nenhum ingrediente especial encontrado',
+    recipeNoneDesc: 'Todos os ingredientes desta receita estão disponíveis em supermercados americanos.',
+    recipeErrorTitle: 'Não foi possível analisar a receita',
+
+    // Language toggle
+    langToggle: 'EN',
+  },
+};
+
+const LANG_KEY = 'sabordecasa_lang';
+
+export function getLang() {
+  const saved = localStorage.getItem(LANG_KEY);
+  if (saved) return saved;
+  return navigator.language?.toLowerCase().startsWith('pt') ? 'pt' : 'en';
+}
+
+export function setLang(lang) {
+  localStorage.setItem(LANG_KEY, lang);
+}
+
+export function toggleLang() {
+  const next = getLang() === 'en' ? 'pt' : 'en';
+  setLang(next);
+  return next;
+}
+
+export function t(key, ...args) {
+  const lang = getLang();
+  const val = translations[lang][key];
+  if (typeof val === 'function') return val(...args);
+  return val ?? translations['en'][key] ?? key;
+}
+
+export function applyTranslations() {
+  const lang = getLang();
+  const tr = translations[lang];
+
+  // Update all elements with data-i18n attribute
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (tr[key] && typeof tr[key] === 'string') {
+      el.textContent = tr[key];
+    }
+  });
+
+  // Update placeholders
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.dataset.i18nPlaceholder;
+    if (tr[key]) el.placeholder = tr[key];
+  });
+
+  // Update lang toggle buttons
+  document.querySelectorAll('.lang-toggle').forEach(btn => {
+    btn.textContent = tr.langToggle;
+    btn.setAttribute('aria-label', lang === 'en' ? 'Mudar para Português' : 'Switch to English');
+  });
+
+  // Update html lang attribute
+  document.documentElement.lang = lang;
+}

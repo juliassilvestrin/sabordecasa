@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sabor de Casa — Ingredient Translator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/states.css">
+</head>
+<body>
+  <!-- HEADER: home view -->
+  <header id="header-home" class="site-header site-header--home">
+    <div class="container">
+      <div class="header-inner">
+        <a href="/" class="logo" aria-label="Sabor de Casa home">
+          <span class="logo-main">Sabor de Casa</span>
+          <span class="logo-tag">Ingredient Translator</span>
+        </a>
+        <div class="header-actions">
+          <button class="lang-toggle" aria-label="Switch language">PT</button>
+          <button id="nav-saved-home" class="nav-saved" aria-label="View saved substitutes">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            <span data-i18n="saved">Saved</span>
+            <span class="saved-badge hidden" aria-label="saved items count"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- HEADER: sub-page view (results, detail, saved, etc.) -->
+  <header id="header-sub" class="site-header site-header--sub hidden">
+    <div class="container">
+      <div class="header-inner">
+        <button id="header-back" class="header-back" aria-label="Go back">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-i18n="back">Back</span>
+        </button>
+        <span id="header-title" class="header-title" data-i18n="results">Results</span>
+        <div class="header-actions">
+          <button class="lang-toggle" aria-label="Switch language">PT</button>
+          <button id="nav-saved-sub" class="nav-saved" aria-label="View saved substitutes">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            <span data-i18n="saved">Saved</span>
+            <span class="saved-badge hidden" aria-label="saved items count"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTEXT BAR: shows "Substitute for X in Y" on result pages -->
+  <div id="context-bar" class="context-bar hidden" aria-live="polite">
+    <div class="container">
+      <p id="context-bar-text"></p>
+    </div>
+  </div>
+
+  <main class="container" role="main">
+    <!-- SEARCH / HOME SECTION -->
+    <section id="search-section" class="search-section" aria-label="Search for ingredient substitutes">
+      <div class="search-hero">
+        <h1 data-i18n="heroTitle">Find substitutes for ingredients from home</h1>
+        <p class="search-subtitle" data-i18n="heroSubtitle">Type what you need and what dish you're making</p>
+      </div>
+      <form id="search-form" class="search-form" novalidate>
+        <div class="search-card">
+          <div class="search-fields">
+            <div class="field-group" id="ingredient-field-group">
+              <label for="search-ingredient" data-i18n="ingredientLabel">Ingredient you can't find</label>
+              <input
+                type="text"
+                id="search-ingredient"
+                data-i18n-placeholder="ingredientPlaceholder"
+                placeholder="e.g. catupiry, requeijão..."
+                autocomplete="off"
+                required
+                aria-required="true"
+                aria-describedby="ingredient-error"
+              >
+              <div id="ingredient-error" class="field-error hidden" role="alert">
+                <svg width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v5M10 13.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <span id="ingredient-error-text">We couldn't find that ingredient. Check your spelling?</span>
+              </div>
+              <div id="spelling-suggestion" class="spelling-suggestion hidden">
+                <span>Did you mean:</span>
+                <button type="button" id="spelling-btn" class="spelling-chip" aria-label="Search for suggested ingredient">
+                  <span id="spelling-text"></span>
+                  <svg width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M13.5 13.5L17 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="search-fields-arrow" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10h14M12 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="field-group">
+              <label for="search-dish" data-i18n="dishLabel">Dish you're making</label>
+              <input
+                type="text"
+                id="search-dish"
+                data-i18n-placeholder="dishPlaceholder"
+                placeholder="e.g. pastel, stroganoff..."
+                autocomplete="off"
+              >
+            </div>
+          </div>
+          <button type="submit" id="search-button" class="btn btn-primary" data-i18n="searchBtn">Search</button>
+        </div>
+      </form>
+
+      <p class="search-hint">
+        <svg width="13" height="13" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M10 8.5v.5M10 11v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span data-i18n="searchHint">Tip: adding the dish helps us suggest the right substitute for your recipe</span>
+      </p>
+
+      <!-- Popular Ingredients -->
+      <div class="popular-section" aria-label="Popular ingredients">
+        <div class="popular-divider">
+          <span data-i18n="browseLabel">or browse popular ingredients</span>
+        </div>
+        <div class="popular-grid" role="list">
+          <button class="popular-card" data-ingredient="Catupiry" role="listitem" aria-label="Search for Catupiry">
+            <div class="popular-icon" aria-hidden="true">
+              <!-- Cream cheese tub -->
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="7" width="16" height="12" rx="2"/>
+                <path d="M4 11h16"/>
+                <path d="M8 7V5a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/>
+                <line x1="8" y1="15" x2="16" y2="15"/>
+              </svg>
+            </div>
+            <span class="popular-name">Catupiry</span>
+            <span class="popular-count" data-i18n="findSubstitutes">Find substitutes</span>
+          </button>
+          <button class="popular-card" data-ingredient="Batata Palha" role="listitem" aria-label="Search for Batata Palha">
+            <div class="popular-icon" aria-hidden="true">
+              <!-- Crispy potato sticks in a pile -->
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 16h16"/>
+                <line x1="6" y1="16" x2="5" y2="9"/>
+                <line x1="9" y1="16" x2="8.5" y2="7"/>
+                <line x1="12" y1="16" x2="12" y2="6"/>
+                <line x1="15" y1="16" x2="15.5" y2="7"/>
+                <line x1="18" y1="16" x2="19" y2="9"/>
+                <path d="M3 19h18" stroke-width="2"/>
+              </svg>
+            </div>
+            <span class="popular-name">Batata Palha</span>
+            <span class="popular-count" data-i18n="findSubstitutes">Find substitutes</span>
+          </button>
+          <button class="popular-card" data-ingredient="Queijo Coalho" role="listitem" aria-label="Search for Queijo Coalho">
+            <div class="popular-icon" aria-hidden="true">
+              <!-- Cheese wedge with holes -->
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 18L12 5l9 13H3z"/>
+                <circle cx="10" cy="14" r="1.25" fill="currentColor" stroke="none"/>
+                <circle cx="14.5" cy="15.5" r="0.875" fill="currentColor" stroke="none"/>
+              </svg>
+            </div>
+            <span class="popular-name">Queijo Coalho</span>
+            <span class="popular-count" data-i18n="findSubstitutes">Find substitutes</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Recipe mode -->
+      <div class="recipe-mode-section">
+        <button class="recipe-toggle-btn" id="recipe-toggle-btn" aria-expanded="false">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
+          <span class="recipe-toggle-label" data-i18n="recipeModeBtn">Or paste a whole recipe</span>
+          <svg class="recipe-toggle-chevron" width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div id="recipe-input-section" class="recipe-input-section hidden">
+          <textarea
+            id="recipe-textarea"
+            class="recipe-textarea"
+            data-i18n-placeholder="recipePlaceholder"
+            placeholder="Paste your recipe here..."
+            rows="6"
+          ></textarea>
+          <button id="recipe-search-btn" class="btn btn-primary recipe-search-btn" data-i18n="recipeSearchBtn">
+            Find substitutes in this recipe
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOADING SECTION -->
+    <section id="loading-section" class="section hidden" aria-label="Loading results" aria-live="polite">
+      <div class="loading-container">
+        <div class="loading-spinner" aria-hidden="true"></div>
+        <p class="loading-text">Finding your best substitute...</p>
+      </div>
+    </section>
+
+    <!-- RESULTS LIST (multiple substitutes) -->
+    <section id="results-list-section" class="section hidden" aria-label="Search results">
+      <p id="results-count" class="results-count"></p>
+      <div id="results-list" class="results-list" role="list"></div>
+    </section>
+
+    <!-- SINGLE RESULT DETAIL -->
+    <section id="result-detail-section" class="section hidden" aria-label="Substitute details">
+      <div id="result-detail" class="result-detail-wrapper"></div>
+    </section>
+
+    <!-- NO SUBSTITUTE FOUND -->
+    <section id="no-substitute-section" class="section hidden" aria-label="No substitute available">
+      <div id="no-substitute-content" class="no-substitute-content"></div>
+    </section>
+
+    <!-- SYSTEM ERROR -->
+    <section id="error-section" class="section hidden" aria-label="Error">
+      <div class="error-container">
+        <div class="error-icon-wrapper" aria-hidden="true">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <path d="M24 4L44 40H4L24 4z" stroke="currentColor" stroke-width="2.5" fill="none"/>
+            <path d="M24 18v10M24 32v2" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h2 data-i18n="errorTitle">Something went wrong</h2>
+        <p class="error-message" data-i18n="errorMsg">We couldn't load this page. Try refreshing or come back later.</p>
+        <button id="error-retry" class="btn btn-retry">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M17.5 10a7.5 7.5 0 1 1-1.5-4.5M17.5 2v3.5H14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-i18n="errorBtn">Refresh Page</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- SAVED SUBSTITUTES PAGE -->
+    <section id="saved-section" class="section hidden" aria-label="Your saved substitutes">
+      <div class="saved-header">
+        <h2 data-i18n="savedTitle">Your Saved Substitutes</h2>
+        <p class="saved-subtitle" data-i18n="savedSubtitle">Quick access to substitutes you've saved for later</p>
+      </div>
+      <div id="saved-list" class="saved-list" role="list"></div>
+      <div id="saved-empty" class="saved-empty hidden">
+        <p data-i18n="savedEmptyLine1">You haven't saved any substitutes yet.</p>
+        <p data-i18n="savedEmptyLine2">Search for an ingredient and tap "Save for later" to bookmark it here.</p>
+      </div>
+    </section>
+    <!-- RECIPE RESULTS -->
+    <section id="recipe-results-section" class="section hidden" aria-label="Recipe substitute results">
+      <div id="recipe-results-content" class="recipe-results-content"></div>
+    </section>
+  </main>
+
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
