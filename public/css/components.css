@@ -853,6 +853,7 @@
   .search-fields {
     flex-direction: column;
     width: 100%;
+    align-items: stretch;
   }
 
   .search-card .btn-primary {
